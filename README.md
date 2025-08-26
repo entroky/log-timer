@@ -1,6 +1,6 @@
 # 🎯 Log Timer
 
-   ![Status](https://img.shields.io/badge/status v2 script for time-blocking, deep work sessions, and productivity logging. Perfect for engineers, students, researchers, and professionals who need focused work sprints with intelligent overrun tracking and seamless note-taking.
+Utility for time-blocking, deep work sessions, and productivity logging. Perfect for engineers, students, researchers, and professionals who need focused work sprints with intelligent overrun tracking and seamless note-taking.
 
 ## ✨ Features
 
