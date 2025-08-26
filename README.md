@@ -53,17 +53,21 @@
 
 
 *Enter the number of minutes for your focus block*
+<img width="376" height="199" alt="image" src="https://github.com/user-attachments/assets/aea34cb3-99b9-440b-b57f-7d25b1a02696" />
 
  
 *Optionally specify what you're working on (great for review later)*
+<img width="375" height="210" alt="image" src="https://github.com/user-attachments/assets/3df30020-1a09-4b5a-accc-9dc4715a642f" />
 
 
 *Set beep interval for overtime alerts (0 = silent)*
+<img width="370" height="211" alt="image" src="https://github.com/user-attachments/assets/9ce55b00-6769-4f93-8b3a-aa536f3b2fe7" />
 
 2. **Focus Timer Appears**
 
 
 *The timer appears in your screen corner, always visible*
+<img width="287" height="132" alt="image" src="https://github.com/user-attachments/assets/be341c92-cfff-4173-a90a-ee99bc6c1394" />
 
 ### During Your Session
 
