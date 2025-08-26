@@ -69,6 +69,9 @@ The timer appears in your screen corner, always visible:
 
 ![Timer Overlay](https://github.com/user-attachments/assets/be341c92-cfff-4173-a90a-ee99bc6c1394)
 
+![Timer Overlay Overrun](https://github.com/user-attachments/assets/9c5b805f-9fad-4d34-8eb7-947e9cfa86d1)
+
+
 ### During Your Session
 
 | Action | Hotkey | Description |
