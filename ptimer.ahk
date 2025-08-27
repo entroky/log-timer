@@ -4,18 +4,34 @@
 global running := false, paused := false
 global g := 0, txt := 0, lbl := 0
 global total := 0, remaining := 0
-global showElapsed := false
 global reason := ""
 global sessionStartTime := ""
-global logFile := "C:\\Users\\moham\\Desktop\\Biopharmaceuticals\\DailyLog.txt"
+global logFile := A_MyDocuments "\\DailyLog.txt"
 global overrunBeepInterval := 0, overrunSince := 0
+global showElapsed := false
 
-#!c:: { ; Win+Alt+C: send timestamp wherever cursor is
-    SendInput(logStamp() . "`r`n")
+logEntry(mark:="", extraNote:="") {
+    global total, remaining, reason, logFile
+    expended := total - remaining
+    if (expended > total) {
+        overrun := expended - total
+        exp_str := total "+" overrun "s"
+    } else {
+        exp_str := expended "s"
+    }
+    output := logStamp() " | " exp_str " | " Trim(reason)
+    if mark != ""
+        output .= " | " mark
+    if extraNote != ""
+        output .= " | " extraNote
+    output .= "`r`n"
+    FileAppend output, logFile
+    if WinActive("ahk_exe notepad.exe")
+        SendInput("{Text}" . output)
 }
 
-^!b:: { ; Start/Stop
-    global running, paused, g, txt, lbl, total, remaining, showElapsed, reason, sessionStartTime, logFile, overrunBeepInterval, overrunSince
+^Left:: { ; Ctrl+Left: Start Block
+    global running, paused, g, txt, lbl, total, remaining, reason, sessionStartTime, overrunBeepInterval, overrunSince
     if running {
         SetTimer Tick, 0
         if g
@@ -42,18 +58,15 @@ global overrunBeepInterval := 0, overrunSince := 0
         beepInterval := 0
     overrunBeepInterval := beepInterval
     overrunSince := 0
-
     sessionStartTime := A_Now
     total := Floor(mins * 60)
     remaining := total
-    showElapsed := false
     running := true
     paused := false
-
-    ; Log session start
-    logmsg := "START " logStamp(sessionStartTime) " | secs: " total " | reason: " reason "`r`n"
-    FileAppend logmsg, logFile
-
+    msg := logStamp(sessionStartTime) " | 0s | " Trim(reason) " | STARTED`r`n"
+    FileAppend msg, logFile
+    if WinActive("ahk_exe notepad.exe")
+        SendInput("{Text}" . msg)
     g := Gui("+AlwaysOnTop +ToolWindow")
     g.BackColor := "FE0000"
     g.SetFont("s14 bold", "Segoe UI")
@@ -68,7 +81,19 @@ global overrunBeepInterval := 0, overrunSince := 0
     UpdateDisplay()
 }
 
-^!p:: { ; Pause/Resume
+^Right:: { ; Ctrl+Right: End Block and log END
+    global running, paused, g
+    if !running
+        return
+    logEntry("END")
+    SetTimer Tick, 0
+    if g
+        g.Destroy()
+    running := false
+    paused := false
+}
+
+^Space:: { ; Ctrl+Space: Pause/Resume
     global paused, running
     if !running
         return
@@ -76,13 +101,7 @@ global overrunBeepInterval := 0, overrunSince := 0
     UpdateDisplay()
 }
 
-^!n:: { ; Toggle elapsed/remaining
-    global showElapsed
-    showElapsed := !showElapsed
-    UpdateDisplay()
-}
-
-^!r:: { ; RESET to start value, even in overrun
+^+Space:: { ; Ctrl+Shift+Space: Reset timer to original value even if overran
     global running, total, remaining, overrunSince
     if !running
         return
@@ -91,41 +110,32 @@ global overrunBeepInterval := 0, overrunSince := 0
     UpdateDisplay()
 }
 
-Esc:: { ; Emergency stop/close (no log)
-    global running, paused, g
-    if !running
-        return
-    SetTimer Tick, 0
-    if g
-        g.Destroy()
-    running := false
-    paused := false
+^Up:: { ; Ctrl+Up: Normal countdown mode
+    global showElapsed
+    showElapsed := false
+    UpdateDisplay()
 }
 
-!t:: { ; Alt+T - PROMPT, log, and paste to Notepad if focused, track overrun in log
-    global running, total, remaining, reason, logFile
+^Down:: { ; Ctrl+Down: Count up (elapsed) mode
+    global showElapsed
+    showElapsed := true
+    UpdateDisplay()
+}
+
+^,:: { ; Ctrl + , : Log a note
+    global running
     if !running
         return
-    expended := total - remaining
     msgBox := InputBox("What would you like to log?", "Log Note")
     if msgBox.Result != "OK"
         return
     extraNote := msgBox.Value
-    ; Overrun-aware expended formatting
-    if (expended > total) {
-        overrun := expended - total
-        exp_str := total " + " overrun "s"
-    } else {
-        exp_str := expended "s"
-    }
-    logmsg := "NOTE  " logStamp() " | expended: " exp_str " | reason: " reason " | note: " extraNote "`r`n"
-    FileAppend logmsg, logFile
-
-    ; Only paste to Notepad if it is active
-    if WinActive("ahk_exe notepad.exe") {
-        SendInput("{Text}" . logmsg)
-    }
+    logEntry("", extraNote)
 }
+
+^.:: Run(logFile) ; Ctrl + . : Open log file
+
+^/:: SendInput("DAY : " logStamp() . "`r`n") ; Ctrl + / : Insert day header
 
 Tick() {
     global running, paused, remaining, total, overrunBeepInterval, overrunSince, showElapsed
@@ -133,10 +143,7 @@ Tick() {
         return
     if !paused
         remaining -= 1
-
-    elapsed := total - remaining
-    isOver := ((showElapsed && elapsed > total) || (!showElapsed && remaining < 0))
-    if isOver && overrunBeepInterval > 0 {
+    if (total - remaining > total) && overrunBeepInterval > 0 {
         overrunSince += 1
         if Mod(overrunSince, overrunBeepInterval) = 0
             SoundBeep(1000, 300)
