@@ -1,37 +1,39 @@
 # 🎯 Log Timer
+A lightning-fast utility for **time-blocking, deep work, and productivity logging**. Ideal for engineers, researchers, writers, students, and anyone who wants ultra-efficient focus sessions, smart overtime alerts, and seamless note capture—all with the speed of a keystroke.
 
-Utility for time-blocking, deep work sessions, and productivity logging. Perfect for engineers, students, researchers, and professionals who need focused work sprints with intelligent overrun tracking and seamless note-taking.
+***
 
 ## ✨ Features
 
-### 🖥️ **Visual Timer Overlay**
-- Always-on-top countdown timer in your screen corner
-- Color-coded display: Red (normal) → Blue (elapsed mode) → Magenta (overrun)
-- Shows `block time + overtime` format during overrun (e.g., `1200 + 45`)
+### 🖥️ **Minimal, Always-On-Top Timer Overlay**
+- Always visible, sits in a screen corner
+- Color-coded:  
+  - **Red:** Countdown (normal mode)
+  - **Blue:** Elapsed (count up)
+  - **Magenta:** Overtime/Overrun
+- Instantly togglable via hotkey for elapsed/remaining
 
-### ⏰ **Smart Time Management**
-- Flexible time blocks from minutes to hours
-- Pause/resume functionality for interruptions
-- Reset timer without losing session context
-- Toggle between elapsed and remaining time views
+### ⏰ **Flexible, Smart Time Management**
+- Set any time block—minutes or hours
+- Pause/resume instantly for interruptions (Ctrl + Space)
+- Reset timer to original value anytime (Ctrl + Shift + Space)
+- Toggle view: see time left (Ctrl+↑) or time elapsed (Ctrl+↓)
 
-### 🔔 **Intelligent Overrun Alerts**
-- Customizable beep intervals when exceeding planned time
-- Optional silent mode (set to 0)
-- Gentle accountability without harsh interruptions
+### 🔔 **Gentle Overtime Alerts**
+- Auto beep at chosen overrun intervals—subtle accountability
+- Customize beep timing or silence it entirely
 
-### 📝 **Comprehensive Logging System**
-- Auto-creates `DailyLog.txt` in your Documents folder
-- Logs session starts with timestamp, duration, and reason
-- Real-time note-taking during sessions (Alt+T)
-- Overrun-aware time tracking in logs
-- Live integration with Notepad for instant visibility
+### 📝 **Intelligent Logging System**
+- Creates `DailyLog.txt` in your **Documents** folder—no setup required
+- Logs every session start, end, and optional notes with timestamps
+- Real-time note logging (Ctrl + ,) during focus (with instant Notepad paste if focused)
+- All actions append to your log for permanent tracking
 
-### ⌨️ **Hotkey-Driven Workflow**
-- No mouse clicks needed during focus sessions
-- Universal timestamp insertion (Win+Alt+C)
-- Quick note logging without breaking flow
-- Emergency stop for urgent interruptions
+### ⌨️ **Blazing Fast, One-Handed Hotkeys**
+- All commands are ergonomic, fast, and rarely conflict with typing/editor/terminal use
+- No function-keys required—everything is under your left hand or on punctuation
+
+***
 
 ## 🚀 Quick Start
 
@@ -40,174 +42,123 @@ Utility for time-blocking, deep work sessions, and productivity logging. Perfect
 - [AutoHotkey v2.0](https://www.autohotkey.com/) installed
 
 ### Installation
-1. **Download AutoHotkey v2** from [autohotkey.com](https://www.autohotkey.com/)
-2. **Clone or download** this repository
-3. **Double-click** `ProductivityTimer.ahk` to run
-4. That's it! No configuration needed.
-
-## 📖 Usage Guide
-
-### Starting Your First Focus Block
-
-### 1. Press `Ctrl+Alt+B` to start a new session
-
-Enter the number of minutes for your focus block:
-
-![Time Setup](https://github.com/user-attachments/assets/aea34cb3-99b9-440b-b57f-7d25b1a02696)
-
-Optionally specify what you're working on (great for review later):
-
-![Log Reason](https://github.com/user-attachments/assets/3df30020-1a09-4b5a-accc-9dc4715a642f)
-
-Set beep interval for overtime alerts (0 = silent):
-
-![Overrun Beep](https://github.com/user-attachments/assets/9ce55b00-6769-4f93-8b3a-aa536f3b2fe7)
-
-### 2. Focus Timer Appears
-
-The timer appears in your screen corner, always visible:
-
-![Timer Overlay](https://github.com/user-attachments/assets/be341c92-cfff-4173-a90a-ee99bc6c1394)
-
-![Timer Overlay Overrun](https://github.com/user-attachments/assets/9c5b805f-9fad-4d34-8eb7-947e9cfa86d1)
-
-
-### During Your Session
-
-| Action | Hotkey | Description |
-|--------|--------|-------------|
-| **Add Note** | `Alt+T` | Log progress, thoughts, or milestones |
-| **Pause/Resume** | `Ctrl+Alt+P` | Handle interruptions gracefully |
-| **Reset Timer** | `Ctrl+Alt+R` | Start block time over |
-| **Toggle Display** | `Ctrl+Alt+N` | Switch between elapsed/remaining |
-| **Emergency Stop** | `Esc` | Close timer immediately |
-| **Insert Timestamp** | `Win+Alt+C` | Type timestamp anywhere |
-
-### Understanding the Timer Display
-
-- **Red Numbers**: Normal countdown (e.g., `1547` = 25 minutes 47 seconds remaining)
-- **Blue Numbers**: Elapsed time mode (e.g., `213` = 3 minutes 13 seconds elapsed)  
-- **Magenta "Block time" + Numbers**: Overrun mode (e.g., `1200 + 45` = planned 20 min + 45 sec overtime)
-
-## 📊 Logging System
-
-### Automatic Log Creation
-The script creates `Documents\DailyLog.txt` automatically. All entries are appended, never overwritten.
-
-### Log Entry Types
-
-**Session Start:**
-```
-START 26082025-140000 | secs: 1200 | reason: Skim the Chemical Engineering Magazine
-```
-
-**Progress Notes (Alt+T):**
-```
-NOTE  26082025-140500 | expended: 300s | reason: Skim the Chemical Engineering Magazine | note: Finished abstract section
-NOTE  26082025-142100 | expended: 1200 + 60s | reason: Skim the Chemical Engineering Magazine | note: Deep dive into methodology
-```
-
-### Smart Overrun Tracking
-- **Normal time**: `expended: 300s` 
-- **Overrun**: `expended: 1200 + 60s` (planned time + overtime)
-
-## 🔧 Customization
-
-### File Location
-```ahk
-global logFile := A_MyDocuments . "\DailyLog.txt"
-```
-Change to any path you prefer.
-
-### Timer Position
-```ahk
-g.Show("x0 y0 NoActivate")  // Top-left corner
-g.Show("x1820 y0 NoActivate")  // Top-right corner
-```
-
-### Beep Sound
-```ahk
-SoundBeep(1000, 300)  // Frequency: 1000Hz, Duration: 300ms
-```
-
-### Colors
-```ahk
-txt.Opt("cRed")      // Normal countdown
-txt.Opt("cBlue")     // Elapsed mode  
-txt.Opt("cFF00FF")   // Overrun (magenta)
-```
-
-## 💡 Pro Tips
-
-### 🎯 **For Deep Work**
-- Start with 25-50 minute blocks
-- Use meaningful reasons ("Research Phase 1", "Code Review")
-- Log key insights with Alt+T
-
-### 📚 **For Studying** 
-- Set subject-specific blocks ("Organic Chemistry Ch. 5")
-- Use Alt+T to mark completed sections
-- Review daily logs to track progress
-
-### 👨‍💻 **For Programming**
-- Time debugging sessions
-- Log breakthrough moments
-- Track time spent on different features
-
-### 📝 **For Writing**
-- Set word count goals with time blocks
-- Log completed sections or milestones
-- Use overrun data to improve time estimates
-
-## 🔍 Troubleshooting
-
-### Script Not Starting?
-- Ensure AutoHotkey v2.0 is installed (not v1.1)
-- Right-click script → "Run as Administrator" if needed
-
-### Win+Alt+C Not Working?
-- Check if other software is using this hotkey
-- Try running script as administrator
-- Ensure target application has text cursor visible
-
-### Timer Not Visible?
-- Check if overlay is behind other windows
-- Adjust position in script (x0 y0 coordinates)
-- Ensure script is running (check system tray for "H" icon)
-
-### Notepad Integration Issues?
-- Make sure Notepad is focused when pressing Alt+T
-- Script detects `notepad.exe` - works with Windows Notepad
-- For other editors, modify the `WinActive` check in Alt+T function
-
-## 🤝 Contributing
-
-We welcome contributions! Areas for enhancement:
-
-- **Analytics Dashboard**: Parse logs for productivity insights
-- **Project Tracking**: Organize blocks by project/category  
-- **Calendar Integration**: Sync with Outlook/Google Calendar
-- **Mobile Companion**: View logs on phone
-- **Team Features**: Shared focus sessions
-
-### Development Setup
-1. Fork the repository
-2. Make your changes in AutoHotkey v2 syntax
-3. Test on Windows 10/11
-4. Submit pull request with description
-
-## 📄 License
-
-MIT License - feel free to modify and distribute!
-
-## 🙏 Credits
-
-Created for focused productivity by engineers who understand the value of deep work. Inspired by Pomodoro Technique, timeboxing, and Getting Things Done methodologies.
+1. Download & install AutoHotkey v2 (see above)
+2. Copy this script to a `.ahk` file (e.g., `LogTimer.ahk`)
+3. Double-click to run—no configuration needed
 
 ***
 
-**⭐ Star this repo if it helps your productivity!**
+## 📖 Usage Guide
 
-**🐛 Found a bug?** [Open an issue](https://github.com/entroky/productivity-timer/issues)
+### Starting Your Focus Block
+Press **Ctrl + Left Arrow**  
+- Enter block duration (in minutes)
+- Optionally specify your session reason (for future review)
+- Optionally pick a beep interval for overrun (in seconds, 0 = silent)
 
-**💡 Have ideas?** [Start a discussion](https://github.com/entroky/productivity-timer/discussions)
+### During Your Session
+
+| Action                    | Hotkey                  | Description                                |
+|---------------------------|-------------------------|--------------------------------------------|
+| **Start block**           | Ctrl + Left Arrow       | Begin a new focus session                  |
+| **End block**             | Ctrl + Right Arrow      | Stop session, log END, and close overlay   |
+| **Pause/Resume**          | Ctrl + Space            | Instantly pause or resume timer            |
+| **Reset session**         | Ctrl + Shift + Space    | Restart block at original time             |
+| **Countdown view**        | Ctrl + Up Arrow         | Display remaining time (default)           |
+| **Elapsed view**          | Ctrl + Down Arrow       | Display time elapsed (count up mode)       |
+| **Log a note**            | Ctrl + , (comma)        | Add a note to your log anytime             |
+| **Open log file**         | Ctrl + . (period)       | Instantly view your log in Notepad         |
+| **Insert day header**     | Ctrl + / (slash)        | Paste `DAY : <timestamp>` wherever you are |
+
+***
+
+### **Display Legend**
+- **Red numeric display:** Time left (countdown)
+- **Blue numeric display:** Elapsed (count up)
+- **Magenta display:** Overtime, with `block duration + overtime seconds` (e.g., `1200 + 45`)
+- Timer window floats in your chosen corner; moveable via script coordinates
+
+***
+
+### **What’s in Your Log?**
+```
+26082025-140000 | 1200s | Skim the Chemical Engineering Magazine | STARTED
+...
+26082025-140500 | 300s | Skim the Chemical Engineering Magazine | Finished abstract section
+...
+26082025-142100 | 1200+60s | Skim the Chemical Engineering Magazine | Deep dive into methodology
+...
+26082025-143000 | 1800+0s | Skim the Chemical Engineering Magazine | END
+```
+- Each entry: `timestamp | seconds | reason | note/marker`
+- **Overruns**: `1200+60s` = planned 20min + 1min overtime
+
+***
+
+## 🔧 Customization
+
+### Change log file location
+```ahk
+global logFile := A_MyDocuments "\\DailyLog.txt"
+```
+Set to any desired path.
+
+### Overlay position  
+Change in script:
+```ahk
+g.Show("x0 y0 NoActivate")    ; Top-left (default)
+g.Show("x1820 y0 NoActivate") ; Top-right (edit values for your screen)
+```
+
+### Beep
+Edit line:
+```ahk
+SoundBeep(1000, 300)          ; Hertz (pitch), Duration ms
+```
+
+***
+
+## 💡 Tips for Power Users
+
+- Use highly descriptive "reasons" for blocks to make logs useful (e.g., `"Design review"`, `"Chapter 4 exercises"`)
+- Use notes frequently to mark micro-accomplishments
+- Review your `DailyLog.txt` at the end of day/week for patterns, bottlenecks, and review
+
+***
+
+## 🔍 Troubleshooting
+
+- **Script not starting?**  
+  Make sure AutoHotkey v2 is installed, not v1. Double-check you’re running the `.ahk` file.
+
+- **Hotkeys not working?**  
+  Ensure no other app has claimed the shortcut; try running script as administrator for system-wide binding.
+
+- **Notepad integration?**  
+  Log lines paste to Notepad only if it’s focused; change window name in the script for other editors.
+
+***
+
+## 🤝 Contributing
+Ideas and pull requests are welcome—for project features, analytics, analytics exports, project tagging, and deeper automation.
+
+***
+
+## 📄 License
+MIT License
+
+***
+
+## 🙏 Credits
+Designed for maximum focus and minimum friction by people who deeply value productive work.  
+Inspired by current best practices in time-blocking, Pomodoro, and deep work culture.
+
+***
+
+**⭐ Star this script if it helps you!**  
+**🐛 Issues?** [Open an issue](https://github.com/yourrepo/log-timer/issues)  
+**💡 Suggestions?** [Start a discussion](https://github.com/yourrepo/log-timer/discussions)  
+
+***
+
+Let me know if you need the markdown version with github/flavored styling or any tweaks for your documentation/site!
